@@ -1,0 +1,129 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+char* substr(const char *src, int m, int n)
+{
+// get length of the destination string
+int len = n - m;
+
+// allocate (len + 1) chars for destination (+1 for extra null character)
+char *dest = (char*)malloc(sizeof(char) * (len + 1));
+
+// start with m'th char and copy 'len' chars into destination
+strncpy(dest, (src + m), len);
+
+// return the destination string
+return dest;
+}
+
+
+
+int main(void)
+    {
+    char data[100];
+    printf("Enter the data:-  ");
+    scanf("%s",data);
+    int len =strlen(data);
+
+    // Lets first print the clock signal
+    for(int i=0;i<len;i++)  
+	    printf("_-");
+
+    // NRZ Algorithm
+    // In NRZ algorithm we represent each 0 by __ and each 1 by --
+	    printf("\n\nNRZ Encoding\n\n");
+    for(int i=0;i<len;i++)
+    {
+        if( data[i] == '0' ) 
+		printf("__");
+        else    
+		printf("--");
+    }
+    
+    // NRZ-L Algorithm
+    // In NRZ-L algorithm we represent each 1 by __ and each 0 by --
+	    printf("\n\nNRZ-L Encoding\n\n");
+    for(int i=0;i<len;i++)
+    {
+        if( data[i] == '0' ) 
+		printf("--");
+        else    
+		printf("__");
+    }
+
+
+	    printf("\n\nNRZI\n\n");
+
+
+    // NRZI Algorithm
+    // In NRZi algorithm whenever 1 occurs output changes (if low, then to high, else if high, then to low)
+{
+    	char nrzi[10]="";
+    for(int i=0; i<len ; i++)
+        {
+        // When i=0 there is no previous position to check from
+        // Out of Bounce error
+        // So we have seperate condition for then
+        // Better to put this condtition outside of loop, so that its not checked with every i
+        if( i==0 ){
+            if( data[i] == '0') strcat(nrzi,"__");
+            else strcat(nrzi,"--");
+            }
+        else if( data[i] == '0' ) {
+            if( nrzi[i*2-1] == '_') strcat(nrzi,"__");
+            else strcat(nrzi,"--");
+            }
+
+        else if ( data[i] == '1' ) {
+            if( nrzi[i*2-1] == '_') strcat(nrzi,"--");//change made here
+            else strcat(nrzi,"__");//change made here
+            }
+
+        printf("%s",substr(nrzi,i*2,2+2*i));
+        }
+}
+	    printf("\n\nManchester\n\n");
+
+    // MAnchester
+    // For manchester if 0 - -_
+    //                if 1 - _-
+
+    for(int i=0; i<len; i++) {
+        if( data[i] == '0' ) 
+	  printf("-_");
+	
+        else 
+		printf("_-");    
+	
+        }
+ // NRZI Algorithm
+    // In NRZi algorithm whenever 1 occurs output changes (if low, then to high, else if high, then to low)
+  printf("\n\nDifferential-Manchester\n\n");
+   char dm[10]="";
+    for(int i=0; i<len ; i++)
+        {
+        // When i=0 there is no previous position to check from
+        // Out of Bounce error
+        // So we have seperate condition for then
+        // Better to put this condtition outside of loop, so that its not checked with every i
+        if( i==0 ){
+            if( data[i] == '0') strcat(dm,"-_");
+	    else strcat(dm,"_-");
+	}
+        else if( data[i] == '0' ) {
+            if( dm[i*2-1] == '_') strcat(dm,"-_");
+            else strcat(dm,"_-");
+            }
+
+        else if ( data[i] == '1' ) {
+            if( dm[i*2-1] == '_') strcat(dm,"_-");//change made here
+            else strcat(dm,"-_");//change made here
+            }
+
+        printf("%s",substr(dm,i*2,2+2*i));
+        }
+
+        printf("\n");
+
+    }
