@@ -1,0 +1,21 @@
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+	FILE *fptr;
+	char c,filename[20];
+	int i=0;
+	printf("enter the filename");
+	scanf("%s",filename);
+
+	fptr=fopen(filename,"r");
+	char *str=(char*)malloc(10);
+	while(c!=EOF)
+	{
+		c=fgetc(fptr);
+		str[i]=c;
+		i++;	
+	}
+	str[i]='\0';
+	printf("%s",str);
+}
