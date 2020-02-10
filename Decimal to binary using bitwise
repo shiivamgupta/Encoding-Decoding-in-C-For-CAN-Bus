@@ -1,0 +1,15 @@
+#include<stdio.h>
+int main()
+{
+        unsigned int num=0;
+        unsigned char count=0;
+        printf("enter number");
+        scanf("%d",&num);
+        printf("binary:");
+        while(count<8)
+        {
+                (num&(0x80>>count))?printf(" 1"):printf(" 0");
+                ++count;
+        }
+        return 0;
+}
